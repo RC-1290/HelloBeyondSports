@@ -8,23 +8,24 @@ namespace CodeAnimo
 	public class Parser : MonoBehaviour
 	{
 		[Header("Input")]
-		public string	data;
-		public int		maxTrackingID = 30;
+		public string	Data;
+		public int		MaxTrackingID = 30;
 
 		[Header("Output")]
-		public int		frameNumber = -1;
+		public int		FrameNumber = -1;
 
-		public int[]	teamNumbers;
-		public int[]	shirtNumbers;
-		public int[]	xCentimeters;
-		public int[]	yCentimeters;
-		public float[]	speeds;
+		// ECS friendly data:
+		public int[]	TeamNumbers;
+		public int[]	ShirtNumbers;
+		public int[]	CentimetersX;
+		public int[]	CentimetersY;
+		public float[]	Speeds;
 
-		public int			ballX;
-		public int			ballY;
-		public int			ballZ;
-		public float		ballSpeed;
-		public BallFlags	flags;
+		public int			BallX;
+		public int			BallY;
+		public int			BallZ;
+		public float		BallSpeed;
+		public BallFlags	Flags;
 
 		[System.Flags]
 		public enum BallFlags
@@ -52,22 +53,22 @@ namespace CodeAnimo
 			_stringToFlagMap.Add("SetAway", BallFlags.SetAway);
 			_stringToFlagMap.Add("Whistle", BallFlags.Whistle);
 
-			flags			= BallFlags.None;
+			Flags			= BallFlags.None;
 
-			frameNumber		= -1;
+			FrameNumber		= -1;
 
-			teamNumbers		= new int	[maxTrackingID];
-			shirtNumbers	= new int	[maxTrackingID];
-			xCentimeters	= new int	[maxTrackingID];
-			yCentimeters	= new int	[maxTrackingID];
-			speeds			= new float	[maxTrackingID];
+			TeamNumbers		= new int	[MaxTrackingID];
+			ShirtNumbers	= new int	[MaxTrackingID];
+			CentimetersX	= new int	[MaxTrackingID];
+			CentimetersY	= new int	[MaxTrackingID];
+			Speeds			= new float	[MaxTrackingID];
 			
 			//
 			char[] separatorColon		= {':'};
 			char[] separatorSemicolon	= {';'};
 			char[] separatorComma		= {','};
 
-			string[] segments = data.Split(separatorColon, System.StringSplitOptions.RemoveEmptyEntries);
+			string[] segments = Data.Split(separatorColon, System.StringSplitOptions.RemoveEmptyEntries);
 
 			int expectedSegmentCount = 3;
 			if (segments.Length != expectedSegmentCount)
@@ -76,7 +77,7 @@ namespace CodeAnimo
 			}
 
 			// Segment 1:
-			int.TryParse(segments[0], out frameNumber);
+			int.TryParse(segments[0], out FrameNumber);
 
 			// Segment 2, trackedObjects:
 			string[] trackedObjectSegments = segments[1].Split(separatorSemicolon, System.StringSplitOptions.RemoveEmptyEntries);
@@ -94,11 +95,11 @@ namespace CodeAnimo
 				if (!success && trackedObjectIndex < 0)
 				{	Debug.LogError("Unexpected format. Could not parse a valid tracked object index.");	}
 
-				success =	int.TryParse(	segmentNumbers[0], out teamNumbers	[trackedObjectIndex]);
-				success &=	int.TryParse(	segmentNumbers[2], out shirtNumbers	[trackedObjectIndex]);
-				success &=	int.TryParse(	segmentNumbers[3], out xCentimeters	[trackedObjectIndex]);
-				success &=	int.TryParse(	segmentNumbers[4], out yCentimeters	[trackedObjectIndex]);
-				success &=	float.TryParse(	segmentNumbers[5], out speeds		[trackedObjectIndex]);
+				success =	int.TryParse(	segmentNumbers[0], out TeamNumbers	[trackedObjectIndex]);
+				success &=	int.TryParse(	segmentNumbers[2], out ShirtNumbers	[trackedObjectIndex]);
+				success &=	int.TryParse(	segmentNumbers[3], out CentimetersX	[trackedObjectIndex]);
+				success &=	int.TryParse(	segmentNumbers[4], out CentimetersY	[trackedObjectIndex]);
+				success &=	float.TryParse(	segmentNumbers[5], out Speeds		[trackedObjectIndex]);
 
 				if (!success)
 				{	Debug.LogError("Unexpected format. One of the numbers didn't parse successfully.");	}
@@ -116,10 +117,10 @@ namespace CodeAnimo
 				string[] ballNumbers = balls[0].Split(separatorComma, System.StringSplitOptions.RemoveEmptyEntries);
 				bool success = true;
 
-				success &= int.TryParse(	ballNumbers[0], out ballX);
-				success &= int.TryParse(	ballNumbers[1], out ballY);
-				success &= int.TryParse(	ballNumbers[2], out ballZ);
-				success &= float.TryParse(	ballNumbers[3], out ballSpeed);
+				success &= int.TryParse(	ballNumbers[0], out BallX);
+				success &= int.TryParse(	ballNumbers[1], out BallY);
+				success &= int.TryParse(	ballNumbers[2], out BallZ);
+				success &= float.TryParse(	ballNumbers[3], out BallSpeed);
 
 				if (!success)
 				{	Debug.LogError("Unexpected format. One of the ball numbers didn't parse successfully.");	}
@@ -134,7 +135,7 @@ namespace CodeAnimo
 					
 					if (success)
 					{
-						flags |= possibleFlag;
+						Flags |= possibleFlag;
 					}
 					else
 					{
