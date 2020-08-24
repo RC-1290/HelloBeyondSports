@@ -42,6 +42,10 @@ namespace CodeAnimo
 
 		private Dictionary<string, BallFlags> _stringToFlagMap;
 
+		private char[] _separatorColon		= {':'};
+		private char[] _separatorSemicolon	= {';'};
+		private char[] _separatorComma		= {','};
+
 		private void OnEnable()
 		{
 			_stringToFlagMap = new Dictionary<string, BallFlags>();
@@ -53,6 +57,12 @@ namespace CodeAnimo
 			_stringToFlagMap.Add("SetAway", BallFlags.SetAway);
 			_stringToFlagMap.Add("Whistle", BallFlags.Whistle);
 
+			ParseData();
+		}
+
+		public void ParseData()
+		{
+			// Reset output:
 			Flags			= BallFlags.None;
 
 			FrameNumber		= -1;
@@ -63,12 +73,8 @@ namespace CodeAnimo
 			CentimetersY	= new int	[MaxTrackingID];
 			Speeds			= new float	[MaxTrackingID];
 			
-			//
-			char[] separatorColon		= {':'};
-			char[] separatorSemicolon	= {';'};
-			char[] separatorComma		= {','};
-
-			string[] segments = Data.Split(separatorColon, System.StringSplitOptions.RemoveEmptyEntries);
+			// Split into FrameNumber, TrackedObject list and Ball:
+			string[] segments = Data.Split(_separatorColon, System.StringSplitOptions.RemoveEmptyEntries);
 
 			int expectedSegmentCount = 3;
 			if (segments.Length != expectedSegmentCount)
@@ -76,11 +82,11 @@ namespace CodeAnimo
 				Debug.LogError("Unexpected format. Expected " + expectedSegmentCount + " segments, got " + segments.Length);
 			}
 
-			// Segment 1:
+			// Segment 1, FrameNumber:
 			int.TryParse(segments[0], out FrameNumber);
 
-			// Segment 2, trackedObjects:
-			string[] trackedObjectSegments = segments[1].Split(separatorSemicolon, System.StringSplitOptions.RemoveEmptyEntries);
+			// Segment 2, TrackedObjects:
+			string[] trackedObjectSegments = segments[1].Split(_separatorSemicolon, System.StringSplitOptions.RemoveEmptyEntries);
 
 			for(
 				int trackedObjectSegmentIndex = 0;
@@ -88,7 +94,7 @@ namespace CodeAnimo
 				++trackedObjectSegmentIndex)
 			{
 				string segment = trackedObjectSegments[trackedObjectSegmentIndex];
-				string[] segmentNumbers = segment.Split(separatorComma, System.StringSplitOptions.RemoveEmptyEntries);
+				string[] segmentNumbers = segment.Split(_separatorComma, System.StringSplitOptions.RemoveEmptyEntries);
 
 				int trackedObjectIndex = -1;
 				bool success = int.TryParse(segmentNumbers[1], out trackedObjectIndex);
@@ -108,13 +114,13 @@ namespace CodeAnimo
 
 			// Segment 3, Ball:
 			{
-				string[] balls = segments[2].Split(separatorSemicolon, System.StringSplitOptions.RemoveEmptyEntries);
+				string[] balls = segments[2].Split(_separatorSemicolon, System.StringSplitOptions.RemoveEmptyEntries);
 				if (balls.Length > 1)
 				{
 					Debug.Log("Support for more than one ball has not been written.");
 				}
 				
-				string[] ballNumbers = balls[0].Split(separatorComma, System.StringSplitOptions.RemoveEmptyEntries);
+				string[] ballNumbers = balls[0].Split(_separatorComma, System.StringSplitOptions.RemoveEmptyEntries);
 				bool success = true;
 
 				success &= int.TryParse(	ballNumbers[0], out BallX);
@@ -146,5 +152,6 @@ namespace CodeAnimo
 
 			}
 		}
+
 	}
 }

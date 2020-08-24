@@ -7,8 +7,12 @@ namespace CodeAnimo
 {
 	public class GameManager : MonoBehaviour
 	{
-		public Parser parser;
+		public int Index = 0;
+
+		public FileReader Reader;
+		public Parser Parser;
 		public GameObject TrackedObjectPrefab;
+
 		[Tooltip("Desired TrackedObject Count. Only updated OnEnable.")]
 		public int TrackedObjectCount = 30;
 
@@ -27,25 +31,34 @@ namespace CodeAnimo
 					Debug.LogError("The given TrackedObjectPrefab does not contain a TrackedObject components in the root.", this);
 				}
 				trackedObject.Index = trackedObjectIndex;
-				trackedObject.Parser = parser;
+				trackedObject.Parser = Parser;
 
 				_trackedObjects.Add(trackedObject);
 
 			}
-
-
-
-
 		}
+
 		private void OnDisable()
 		{
 			for (int trackedObjectIndex = 0; trackedObjectIndex < TrackedObjectCount; ++ trackedObjectIndex)
 			{
 				TrackedObject trackedObject = _trackedObjects[trackedObjectIndex];
-				Destroy(trackedObject.gameObject);
+				if (trackedObject != null)
+				{
+					Destroy(trackedObject.gameObject);
+				}
 			}
 			_trackedObjects.Clear();
 			_trackedObjects = null;
+		}
+
+		private void Update()
+		{
+			if (Reader.FramesAvailable)
+			{
+				Parser.Data = Reader.Frames[Index];
+				Parser.ParseData();
+			}
 		}
 
 

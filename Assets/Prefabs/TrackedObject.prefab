@@ -141,3 +141,6 @@ MonoBehaviour:
   Index: 0
   TeamNumber: 0
   ShirtNumber: 0
+  MaterialForTeamRed: {fileID: 2100000, guid: 70d28b0e9e25b9645927cc76da69c7d2, type: 2}
+  MaterialForTeamBlue: {fileID: 2100000, guid: e22800a69405bba4092068b393ebfcca, type: 2}
+  MaterialForReferee: {fileID: 2100000, guid: 7d68451c6b8c7594a8ae4ff3e7aee053, type: 2}

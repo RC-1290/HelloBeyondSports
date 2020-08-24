@@ -10,11 +10,17 @@ namespace CodeAnimo
 		public int TeamNumber;
 		public int ShirtNumber;
 
+		public Material MaterialForTeamRed;
+		public Material MaterialForTeamBlue;
+		public Material MaterialForReferee;
+
 		private Transform _transform;
+		private MeshRenderer _renderer;
 
 		private void OnEnable()
 		{
 			_transform = GetComponent<Transform>();
+			_renderer = GetComponentInChildren<MeshRenderer>();
 		}
 
 		private void LateUpdate()
@@ -29,6 +35,19 @@ namespace CodeAnimo
 			Vector3 newPosition = new Vector3(xCentimeters / 100.0f, 0, yCentimeters / 100.0f);
 
 			_transform.position = newPosition;
+
+			switch(TeamNumber)
+			{
+				case 0:
+					_renderer.material = MaterialForTeamRed;
+					break;
+				case 1:
+					_renderer.material = MaterialForTeamBlue;
+					break;
+				default:
+					_renderer.material = MaterialForReferee;
+					break;
+			}
 
 		}
 
