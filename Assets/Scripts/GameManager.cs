@@ -7,11 +7,15 @@ namespace CodeAnimo
 {
 	public class GameManager : MonoBehaviour
 	{
-		public int Index = 0;
+		[Range(0,1)]
+		public float Progress = 0;
+		public bool Play = true;
+		public int framesPerSecond = 25;
 
 		public FileReader Reader;
 		public Parser Parser;
 		public GameObject TrackedObjectPrefab;
+		public Transform TrackedObjectParent;
 
 		[Tooltip("Desired TrackedObject Count. Only updated OnEnable.")]
 		public int TrackedObjectCount = 30;
@@ -23,7 +27,7 @@ namespace CodeAnimo
 			_trackedObjects = new List<TrackedObject>(TrackedObjectCount);
 			for (int trackedObjectIndex = 0; trackedObjectIndex < TrackedObjectCount; ++ trackedObjectIndex)
 			{
-				GameObject createdObject = Instantiate(TrackedObjectPrefab);
+				GameObject createdObject = Instantiate(TrackedObjectPrefab, TrackedObjectParent);
 				TrackedObject trackedObject = createdObject.GetComponent<TrackedObject>();
 
 				if (trackedObject == null)
@@ -56,8 +60,19 @@ namespace CodeAnimo
 		{
 			if (Reader.FramesAvailable)
 			{
-				Parser.Data = Reader.Frames[Index];
+				int frameCount = Reader.Frames.Length;
+				int index = Mathf.FloorToInt(Progress * frameCount); // TODO: frame interpolation based on speed will probably require two indices, one floored one ceiled.
+				index = index > frameCount ? frameCount : index;
+				index = index < 0 ? 0 : index;
+
+				Parser.Data = Reader.Frames[index];
 				Parser.ParseData();
+
+				if (Play)
+				{
+					float progressPerSecond = framesPerSecond / (float)frameCount;
+					Progress += Time.deltaTime * progressPerSecond;
+				}
 			}
 		}
 
