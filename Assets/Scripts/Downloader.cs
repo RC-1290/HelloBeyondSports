@@ -14,6 +14,7 @@ namespace CodeAnimo
 		public string Host = "http://192.168.178.32";// For this demo I'm hosting the file on a machine on the local network. In production systems, you would switch to some other server.
 		[Tooltip("Path relative to the host.")]
 		public string FileName = "match_data.dat";
+		public bool FileDownloaded = false;
 		
 		private static HttpClient _client;// .Net really wants to have one, so it can handle socket re-use.
 		private Task<byte[]> _downloadTask;
@@ -41,6 +42,7 @@ namespace CodeAnimo
 					// Streaming setups -> you might not even store these clientside, or have a ringbuffer for recently viewed matches.
 					// For this demo we make the assumption that any previous files are completely what we want.
 					Debug.Log("Download skipped, file already exists. Let's hope it's intact.");
+					FileDownloaded = true;
 				}
 				else
 				{
@@ -106,6 +108,7 @@ namespace CodeAnimo
 				{
 					case TaskStatus.RanToCompletion:
 						Debug.Log("File completed writing to '" + _fileWriteLocation + "'");
+						FileDownloaded = true;
 						_fileWriteTask = null;
 						_fileWriter.Dispose();
 						_fileWriter = null;

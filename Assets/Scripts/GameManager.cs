@@ -14,6 +14,7 @@ namespace CodeAnimo
 
 		public FileReader Reader;
 		public Parser Parser;
+		public Downloader DownloadThing;
 		public GameObject TrackedObjectPrefab;
 		public Transform TrackedObjectParent;
 
@@ -61,12 +62,16 @@ namespace CodeAnimo
 			if (Reader.FramesAvailable)
 			{
 				int frameCount = Reader.Frames.Length;
-				int index = Mathf.FloorToInt(Progress * frameCount); // TODO: frame interpolation based on speed will probably require two indices, one floored one ceiled.
+				float targetFrame = Progress * frameCount;
+				int index = Mathf.FloorToInt(targetFrame);
 				index = index > frameCount ? frameCount : index;
 				index = index < 0 ? 0 : index;
 
+				float partialFrame = targetFrame - index;
+
 				Parser.Data = Reader.Frames[index];
 				Parser.ParseData();
+				
 
 				if (Play)
 				{
@@ -74,6 +79,11 @@ namespace CodeAnimo
 					Progress += Time.deltaTime * progressPerSecond;
 				}
 			}
+			else if (DownloadThing.FileDownloaded)
+			{
+				Reader.ShouldAttemptRead = true;
+			}
+			
 		}
 
 
