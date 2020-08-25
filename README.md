@@ -1,5 +1,5 @@
 # HelloBeyondSports
-A prototype Visualization to show my code style
+A prototype Visualization to show my code style. This is only useful if you have 'the data'.
 
 # Instructions
 If you just want to view this in editor on Windows, you can put the data file in %userprofile%\appdata\LocalLow\Code Animo\Hello Beyond Sports\
