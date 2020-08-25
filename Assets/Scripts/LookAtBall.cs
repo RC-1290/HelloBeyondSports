@@ -7,6 +7,8 @@ namespace CodeAnimo
 	{
 		public Transform Ball;
 
+		public float smoothing = 0.1f;
+
 		private Transform _transform;
 
 
@@ -17,7 +19,9 @@ namespace CodeAnimo
 
 		private void Update()
 		{
-			_transform.LookAt(Ball, Vector3.up);
+			Vector3 lookDirection = Ball.position - _transform.position;
+			var exactRotation = Quaternion.LookRotation(lookDirection, _transform.up);
+			_transform.rotation = Quaternion.Slerp(_transform.rotation, exactRotation, smoothing);
 		}
 	}
 }
