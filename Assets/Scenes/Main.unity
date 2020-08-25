@@ -810,6 +810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ball: {fileID: 861149397}
+  smoothing: 0.1
 --- !u!1 &360694870
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,6 +900,7 @@ GameObject:
   m_Component:
   - component: {fileID: 450534873}
   - component: {fileID: 450534872}
+  - component: {fileID: 450534874}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -942,6 +944,18 @@ Transform:
   m_Father: {fileID: 214776849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &450534874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450534871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09134e11844f7fb4db567634b472d632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &501354389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.45644647, y: -0.00008125383, z: -0.000152358, w: 0.88975084}
-  m_LocalPosition: {x: -2.2516277, y: 69.19715, z: -50.379086}
+  m_LocalPosition: {x: -2.2516277, y: 55.82, z: -41.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1477374063}
