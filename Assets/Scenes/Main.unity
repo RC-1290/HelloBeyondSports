@@ -732,11 +732,10 @@ GameObject:
   m_Component:
   - component: {fileID: 334938307}
   - component: {fileID: 334938309}
-  - component: {fileID: 334938308}
   - component: {fileID: 334938310}
   m_Layer: 0
   m_Name: Angled Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -755,14 +754,6 @@ Transform:
   m_Father: {fileID: 1477374063}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &334938308
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 334938306}
-  m_Enabled: 1
 --- !u!20 &334938309
 Camera:
   m_ObjectHideFlags: 0
@@ -932,6 +923,7 @@ MonoBehaviour:
   framesPerSecond: 25
   Reader: {fileID: 906234693}
   Parser: {fileID: 508632594}
+  DownloadThing: {fileID: 501354390}
   TrackedObjectPrefab: {fileID: 6063299022311591538, guid: 9661aa989b1f05e4da9b249f6ddc346d,
     type: 3}
   TrackedObjectParent: {fileID: 1477374063}
@@ -982,6 +974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Host: http://192.168.178.32
   FileName: match_data.dat
+  FileDownloaded: 0
 --- !u!4 &501354391
 Transform:
   m_ObjectHideFlags: 0
@@ -1669,6 +1662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FileName: match_data.dat
+  ShouldAttemptRead: 1
   FramesAvailable: 0
 --- !u!1 &908150482
 GameObject:
@@ -1759,13 +1753,22 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
+  - component: {fileID: 963194226}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &963194226
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
