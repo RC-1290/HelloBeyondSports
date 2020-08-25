@@ -32,6 +32,16 @@ namespace CodeAnimo
 			int yCentimeters	= Parser.CentimetersY[Index];
 			float speed			= Parser.Speeds[Index];
 
+			if (TeamNumber <= 0 && ShirtNumber <= 0)
+			{
+				_renderer.enabled = false;
+			}
+			else
+			{
+				_renderer.enabled = true;
+			}
+
+
 			Vector3 newPosition = new Vector3(xCentimeters / 100.0f, 0, yCentimeters / 100.0f);
 
 			_transform.position = newPosition;
